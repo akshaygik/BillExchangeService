@@ -17,6 +17,11 @@ public class ExchangeServiceImpl implements ExchangeService {
     private RestTemplate restTemplate;
     private static ExchangeRate exchangeRate;
 
+    /**
+    This method fetches exchange rates for mentioned currency
+    Input: source currency code
+    Output: Exchange rates in all standard international currencies
+     **/
     @Override
     public ExchangeRate getExchangeRates(String sourceCurrency) {
         String url = exchangeRateUrl+ sourceCurrency;
@@ -24,6 +29,13 @@ public class ExchangeServiceImpl implements ExchangeService {
         return exchangeRate;
     }
 
+    /**
+     This method calculates discount as per user type and tenure as well as item type in bill.
+     Applies discount to total bill amount, deducts flat discount rate if amount is greater than 100$.
+     After that it fetches exchange rates in source currency and converts total bill in target currency using exchange rates.
+     Input: Bill details including item list, user type, tenure and source, target currency
+     Output: Calculated and converted total bill amount
+     **/
     @Override
     public Double calculateBill(Bill bill) {
         calculateDiscount(bill);
